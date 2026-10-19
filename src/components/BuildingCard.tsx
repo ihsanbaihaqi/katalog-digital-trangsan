@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight, ImageOff } from "lucide-react";
+import Image from "next/image";
 import { Building } from "@/data/buildings";
 
 interface BuildingCardProps {
@@ -37,21 +38,25 @@ export default function BuildingCard({ building }: BuildingCardProps) {
       <div
         style={{
           height: "180px",
-          backgroundColor: building.imageUrl ? undefined : "#f0f4f2",
-          backgroundImage: building.imageUrl
-            ? `url(${building.imageUrl})`
-            : undefined,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          display: building.imageUrl ? undefined : "flex",
+          backgroundColor: "#f0f4f2",
+          position: "relative",
+          flexShrink: 0,
+          display: "flex",
           alignItems: "center",
           justifyContent: "center",
           flexDirection: "column",
           gap: "0.5rem",
-          flexShrink: 0,
         }}
       >
-        {!building.imageUrl && (
+        {building.imageUrl ? (
+          <Image
+            src={building.imageUrl}
+            alt={`Foto ${building.name}`}
+            fill
+            style={{ objectFit: "cover" }}
+            sizes="(max-width: 768px) 100vw, 320px"
+          />
+        ) : (
           <>
             <ImageOff size={32} color="#b0c4bb" />
             <span style={{ color: "#b0c4bb", fontSize: "0.75rem" }}>
@@ -59,19 +64,20 @@ export default function BuildingCard({ building }: BuildingCardProps) {
             </span>
           </>
         )}
+
         {/* Category badge */}
         <div
           style={{
-            position: "relative",
-            alignSelf: "flex-start",
+            position: "absolute",
+            bottom: 0,
+            left: 0,
             backgroundColor: "var(--green-primary)",
             color: "white",
             fontSize: "0.72rem",
             fontWeight: 600,
             padding: "0.25rem 0.6rem",
-            borderRadius: "0 0 6px 0",
-            marginTop: "auto",
-            marginLeft: 0,
+            borderRadius: "0 6px 0 0",
+            zIndex: 1,
           }}
         >
           {building.category}
