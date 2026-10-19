@@ -4,17 +4,43 @@ export interface Building {
   description: string;
   category: string;
   imageUrl?: string;
+  modelUrl?: string;
   isPlaceholder: boolean;
 }
 
-/**
- * Data bangunan desa.
- * Ganti isPlaceholder: false dan isi field yang sesuai
- * ketika data nyata sudah tersedia.
- */
 export const buildings: Building[] = [
-  // Data nyata belum tersedia. Tambahkan objek bangunan di sini
-  // ketika foto dan deskripsi resmi sudah siap.
+  {
+    id: "andi-rotan",
+    name: "Andi Rotan",
+    description: "Industri kerajinan rotan yang menjadi salah satu usaha unggulan di Desa Trangsan.",
+    category: "Industri",
+    modelUrl: "/models/andi-rotan.glb",
+    isPlaceholder: false,
+  },
+  {
+    id: "pabrik-manggala-jaya",
+    name: "Pabrik Manggala Jaya",
+    description: "Pabrik pengolahan rotan Manggala Jaya, salah satu sentra produksi kerajinan desa.",
+    category: "Industri",
+    modelUrl: "/models/pabrik-manggala-jaya.glb",
+    isPlaceholder: false,
+  },
+  {
+    id: "pabrik-reka-desain",
+    name: "Pabrik Reka Desain",
+    description: "Pabrik Reka Desain, produsen furnitur dan kerajinan rotan berkualitas di Desa Trangsan.",
+    category: "Industri",
+    modelUrl: "/models/pabrik-reka-desain.glb",
+    isPlaceholder: false,
+  },
+  {
+    id: "putra-jaya-rotan",
+    name: "Putra Jaya Rotan",
+    description: "Usaha kerajinan rotan Putra Jaya, penghasil produk rotan untuk pasar lokal dan ekspor.",
+    category: "Industri",
+    modelUrl: "/models/putra-jaya-rotan.glb",
+    isPlaceholder: false,
+  },
 ];
 
 export const buildingCategories = [
@@ -23,5 +49,6 @@ export const buildingCategories = [
   "Peribadatan",
   "Pendidikan",
   "Kesehatan",
+  "Industri",
   "Umum",
 ];
