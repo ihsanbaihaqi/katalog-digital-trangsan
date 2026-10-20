@@ -1,6 +1,12 @@
-import { MapPin, Clock } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { MapPin, Maximize2, X } from "lucide-react";
+import Image from "next/image";
 
 export default function MapSection() {
+  const [fullscreen, setFullscreen] = useState(false);
+
   return (
     <section
       id="peta"
@@ -38,7 +44,7 @@ export default function MapSection() {
               letterSpacing: "-0.02em",
             }}
           >
-            Peta Interaktif Desa Trangsan
+            Peta Desa Trangsan
           </h2>
           <p
             style={{
@@ -49,11 +55,11 @@ export default function MapSection() {
               lineHeight: 1.6,
             }}
           >
-            Temukan lokasi bangunan dan fasilitas desa secara visual dan interaktif.
+            Temukan lokasi bangunan dan fasilitas desa secara visual.
           </p>
         </div>
 
-        {/* Map placeholder */}
+        {/* Map image card */}
         <div
           style={{
             backgroundColor: "white",
@@ -63,175 +69,133 @@ export default function MapSection() {
             border: "1px solid rgba(0,0,0,0.06)",
           }}
         >
-          {/* Placeholder map area */}
+          {/* Image container */}
           <div
             style={{
-              height: "400px",
-              backgroundColor: "#e8f4f0",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              gap: "1.25rem",
               position: "relative",
-              overflow: "hidden",
+              width: "100%",
+              aspectRatio: "16/10",
+              backgroundColor: "#e8f4f0",
+              cursor: "zoom-in",
             }}
-            role="img"
-            aria-label="Placeholder peta desa — belum tersedia"
+            onClick={() => setFullscreen(true)}
+            role="button"
+            aria-label="Perbesar peta desa"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === "Enter" && setFullscreen(true)}
           >
-            {/* Grid pattern background */}
-            <svg
+            <Image
+              src="/images/peta-desa.jpg"
+              alt="Peta Desa Trangsan"
+              fill
+              style={{ objectFit: "contain" }}
+              sizes="(max-width: 768px) 100vw, 1200px"
+              priority
+            />
+            {/* Zoom hint */}
+            <div
               style={{
                 position: "absolute",
-                inset: 0,
-                width: "100%",
-                height: "100%",
-                opacity: 0.25,
+                top: "1rem",
+                right: "1rem",
+                backgroundColor: "rgba(0,0,0,0.5)",
+                color: "white",
+                borderRadius: "8px",
+                padding: "0.4rem 0.75rem",
+                fontSize: "0.75rem",
+                display: "flex",
+                alignItems: "center",
+                gap: "0.4rem",
+                pointerEvents: "none",
               }}
-              aria-hidden="true"
             >
-              <defs>
-                <pattern
-                  id="grid"
-                  width="40"
-                  height="40"
-                  patternUnits="userSpaceOnUse"
-                >
-                  <path
-                    d="M 40 0 L 0 0 0 40"
-                    fill="none"
-                    stroke="#2d6a4f"
-                    strokeWidth="0.5"
-                  />
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#grid)" />
-            </svg>
-
-            {/* Road-like lines */}
-            <svg
-              style={{
-                position: "absolute",
-                inset: 0,
-                width: "100%",
-                height: "100%",
-                opacity: 0.15,
-              }}
-              aria-hidden="true"
-            >
-              <line x1="0" y1="50%" x2="100%" y2="50%" stroke="#2d6a4f" strokeWidth="3" />
-              <line x1="30%" y1="0" x2="30%" y2="100%" stroke="#2d6a4f" strokeWidth="2" />
-              <line x1="65%" y1="0" x2="65%" y2="100%" stroke="#2d6a4f" strokeWidth="2" />
-            </svg>
-
-            <div style={{ position: "relative", zIndex: 1, textAlign: "center", padding: "0 1.5rem" }}>
-              <div
-                style={{
-                  width: "64px",
-                  height: "64px",
-                  backgroundColor: "rgba(45,106,79,0.12)",
-                  borderRadius: "50%",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  margin: "0 auto 1rem",
-                  border: "2px solid rgba(45,106,79,0.2)",
-                }}
-              >
-                <MapPin size={28} color="var(--green-primary)" />
-              </div>
-              <h3
-                style={{
-                  fontWeight: 700,
-                  color: "var(--green-dark)",
-                  fontSize: "1.1rem",
-                  marginBottom: "0.5rem",
-                }}
-              >
-                Peta Desa Sedang Disiapkan
-              </h3>
-              <p
-                style={{
-                  color: "#5a7f6e",
-                  fontSize: "0.9rem",
-                  maxWidth: "380px",
-                  lineHeight: 1.6,
-                }}
-              >
-                Data koordinat dan lokasi bangunan desa sedang dalam proses
-                pengumpulan. Peta interaktif akan segera tersedia.
-              </p>
+              <Maximize2 size={13} />
+              Klik untuk perbesar
             </div>
           </div>
 
           {/* Info bar */}
           <div
             style={{
-              padding: "1.25rem 1.5rem",
+              padding: "1rem 1.5rem",
               display: "flex",
               alignItems: "center",
               gap: "0.75rem",
               borderTop: "1px solid rgba(0,0,0,0.06)",
             }}
           >
-            <Clock size={16} color="var(--earth)" />
-            <p style={{ color: "#888", fontSize: "0.85rem", margin: 0 }}>
-              Fitur peta interaktif akan tersedia setelah pengumpulan data koordinat bangunan selesai.
+            <MapPin size={15} color="var(--green-primary)" />
+            <p style={{ color: "#666", fontSize: "0.85rem", margin: 0 }}>
+              Peta wilayah Desa Trangsan — klik gambar untuk melihat lebih detail.
             </p>
           </div>
         </div>
+      </div>
 
-        {/* Feature preview cards */}
+      {/* Fullscreen lightbox */}
+      {fullscreen && (
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(3, 1fr)",
-            gap: "1rem",
-            marginTop: "1.5rem",
+            position: "fixed",
+            inset: 0,
+            backgroundColor: "rgba(0,0,0,0.92)",
+            zIndex: 1000,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "1rem",
+            cursor: "zoom-out",
           }}
-          className="feature-cards"
+          onClick={() => setFullscreen(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Peta desa layar penuh"
         >
-          {[
-            { icon: "📍", title: "Koordinat Terverifikasi", desc: "Lokasi akurat berdasarkan survei lapangan" },
-            { icon: "🏛️", title: "Info Bangunan", desc: "Klik lokasi untuk melihat detail bangunan" },
-            { icon: "🗺️", title: "Navigasi Mudah", desc: "Temukan rute menuju lokasi tujuan" },
-          ].map((item) => (
-            <div
-              key={item.title}
-              style={{
-                backgroundColor: "white",
-                borderRadius: "12px",
-                padding: "1.25rem",
-                border: "1px solid rgba(0,0,0,0.06)",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
-              }}
-            >
-              <div style={{ fontSize: "1.5rem", marginBottom: "0.5rem" }}>{item.icon}</div>
-              <h4
-                style={{
-                  fontWeight: 700,
-                  fontSize: "0.9rem",
-                  color: "var(--green-dark)",
-                  marginBottom: "0.3rem",
-                }}
-              >
-                {item.title}
-              </h4>
-              <p style={{ color: "#888", fontSize: "0.8rem", lineHeight: 1.5, margin: 0 }}>
-                {item.desc}
-              </p>
-            </div>
-          ))}
-        </div>
+          {/* Close button */}
+          <button
+            onClick={() => setFullscreen(false)}
+            style={{
+              position: "absolute",
+              top: "1rem",
+              right: "1rem",
+              backgroundColor: "rgba(255,255,255,0.15)",
+              border: "1px solid rgba(255,255,255,0.2)",
+              borderRadius: "50%",
+              width: "44px",
+              height: "44px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              color: "white",
+              zIndex: 1001,
+            }}
+            aria-label="Tutup peta"
+          >
+            <X size={20} />
+          </button>
 
-        <style>{`
-          @media (max-width: 640px) {
-            .feature-cards {
-              grid-template-columns: 1fr !important;
-            }
-          }
-        `}</style>
-      </div>
+          {/* Full image */}
+          <div
+            style={{
+              position: "relative",
+              width: "100%",
+              height: "100%",
+              maxWidth: "1400px",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Image
+              src="/images/peta-desa.jpg"
+              alt="Peta Desa Trangsan — layar penuh"
+              fill
+              style={{ objectFit: "contain" }}
+              sizes="100vw"
+              priority
+            />
+          </div>
+        </div>
+      )}
     </section>
   );
 }
